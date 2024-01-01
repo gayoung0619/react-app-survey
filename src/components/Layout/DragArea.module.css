@@ -1,0 +1,25 @@
+.itemWrap {
+    max-width: 768px;
+    margin: 100px auto;
+    padding: 12px;
+}
+
+.item {
+    position: relative;
+    background-color: #fff;
+}
+
+.item.isDragging {
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2);
+}
+
+.item::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 6px;
+    background-color: #4285f4;
+}
