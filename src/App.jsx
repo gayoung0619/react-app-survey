@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createGlobalStyle } from 'styled-components';
 
 import Form from './components/pages/Form'
-import InputSelection from "./components/Inputbox/InputSelection.jsx";
 
 const GlobalStyle = createGlobalStyle`
   body {

@@ -5,9 +5,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import Card from './Card';
 import InputTitleField from "../Inputbox/InputTitleField.jsx";
-import InputSelection from "../Inputbox/InputSelection.jsx";
-import InputNarrativeQuestion from "../Inputbox/InputNarrativeQuestion.jsx";
-import InputOptionalQuestion from "../Inputbox/InputOptionalQuestion.jsx";
+import FormContainer from "../Layout/FormContainer.jsx"
 
 import classes from './DragArea.module.css';
 
@@ -59,9 +57,7 @@ const DragArea = () => {
 										>
 											<Card>
 												{/* 다른 드래그 가능한 내용 */}
-												<InputSelection />
-												<InputNarrativeQuestion />
-												<InputOptionalQuestion />
+												<FormContainer />
 											</Card>
 										</div>
 									)}
