@@ -1,22 +1,19 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { addForm } from '../../slices/form'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import Card from './Card';
-
-import classes from './DragArea.module.css';
 import InputTitleField from "../Inputbox/InputTitleField.jsx";
 import InputSelection from "../Inputbox/InputSelection.jsx";
 import InputNarrativeQuestion from "../Inputbox/InputNarrativeQuestion.jsx";
 import InputOptionalQuestion from "../Inputbox/InputOptionalQuestion.jsx";
 
-const initialItems = [
-	{ id: 'item-1' },
-];
+import classes from './DragArea.module.css';
 
 const DragArea = () => {
-	const [items, setItems] = useState(initialItems);
-
+	const dispatch = useDispatch();
+	const items = useSelector((state) => state.form.items );
 	const handleDragEnd = (result) => {
 		if (!result.destination) {
 			return;
@@ -26,18 +23,27 @@ const DragArea = () => {
 		const [movedItem] = updatedItems.splice(result.source.index, 1);
 		updatedItems.splice(result.destination.index, 0, movedItem);
 
-		setItems(updatedItems);
-
+		dispatch(addForm(updatedItems));
 	};
 
-
+	const handleAddButtonClick = () => {
+		const newItem = { id: `item-${items.length + 1}` };
+		dispatch(addForm(newItem));
+	};
 
 	return (
 		<>
+			<button onClick={handleAddButtonClick}>Add</button>
 			<DragDropContext onDragEnd={handleDragEnd}>
 				<Droppable droppableId="droppable">
 					{(provided) => (
 						<div className={classes.itemWrap} {...provided.droppableProps} ref={provided.innerRef}>
+							<div className={classes.item}>
+								<Card>
+									<InputTitleField />
+								</Card>
+							</div>
+
 							{items.map((item, index) => (
 								<Draggable key={item.id} draggableId={item.id} index={index}>
 									{(provided, snapshot) => (
@@ -52,10 +58,10 @@ const DragArea = () => {
 											}}
 										>
 											<Card>
-												<InputTitleField />
-												{/*<InputSelection />*/}
-												{/*<InputNarrativeQuestion />*/}
-												{/*<InputOptionalQuestion />*/}
+												{/* 다른 드래그 가능한 내용 */}
+												<InputSelection />
+												<InputNarrativeQuestion />
+												<InputOptionalQuestion />
 											</Card>
 										</div>
 									)}
