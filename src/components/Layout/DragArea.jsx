@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { addForm } from '../../slices/form'
+import { addForm, updateFormOrder } from '../../slices/form'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { v4 as uuidv4 } from 'uuid';
 
 import Card from './Card';
-import InputTitleField from "../Inputbox/InputTitleField.jsx";
+import TitleForm from "../Formbox/TitleForm.jsx";
 import FormContainer from "../Layout/FormContainer.jsx"
 
 import classes from './DragArea.module.css';
@@ -21,11 +22,11 @@ const DragArea = () => {
 		const [movedItem] = updatedItems.splice(result.source.index, 1);
 		updatedItems.splice(result.destination.index, 0, movedItem);
 
-		dispatch(addForm(updatedItems));
+		dispatch(updateFormOrder(updatedItems));
 	};
 
 	const handleAddButtonClick = () => {
-		const newItem = { id: `item-${items.length + 1}` };
+		const newItem = { id: `item-${uuidv4()}` };
 		dispatch(addForm(newItem));
 	};
 
@@ -38,7 +39,7 @@ const DragArea = () => {
 						<div className={classes.itemWrap} {...provided.droppableProps} ref={provided.innerRef}>
 							<div className={classes.item}>
 								<Card>
-									<InputTitleField />
+									<TitleForm />
 								</Card>
 							</div>
 
