@@ -9,7 +9,6 @@ const DropdownForm = () => {
 			<select>
 				<option value="option1">Option 1</option>
 				<option value="option2">Option 2</option>
-				{/* 다른 드롭다운 옵션들 추가 */}
 			</select>
 		</div>
 	);

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-const InputTitleField = () => {
+const TitleForm = () => {
 	return (
 		<Box
 			component="form"
@@ -27,4 +27,4 @@ const InputTitleField = () => {
 		</Box>
 	)
 }
-export default InputTitleField;
+export default TitleForm;
