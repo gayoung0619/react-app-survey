@@ -4,15 +4,18 @@ import { addForm, updateFormOrder } from '../../slices/form'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
 
+import Wrapper from "./Wrapper.jsx";
 import Card from './Card';
 import TitleForm from "../Formbox/TitleForm.jsx";
-import FormContainer from "../Layout/FormContainer.jsx"
 
+import FormContainer from "../Layout/FormContainer.jsx"
 import classes from './DragArea.module.css';
 
 const DragArea = () => {
 	const dispatch = useDispatch();
 	const items = useSelector((state) => state.form.items );
+	const question = useSelector((state) => state.question );
+	console.log(question)
 	const handleDragEnd = (result) => {
 		if (!result.destination) {
 			return;
@@ -31,7 +34,7 @@ const DragArea = () => {
 	};
 
 	return (
-		<>
+		<Wrapper>
 			<button onClick={handleAddButtonClick}>Add</button>
 			<DragDropContext onDragEnd={handleDragEnd}>
 				<Droppable droppableId="droppable">
@@ -69,7 +72,7 @@ const DragArea = () => {
 					)}
 				</Droppable>
 			</DragDropContext>
-		</>
+		</Wrapper>
 	);
 };
 
