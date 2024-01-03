@@ -1,5 +1,8 @@
 .floatingbar {
-    position: absolute;
+    position: fixed;
     bottom: 16px;
     right: 16px;
+}
+.floatingbar button:first-child {
+    margin-left: 10px;
 }
