@@ -1,0 +1,9 @@
+.preview {
+
+}
+
+.title, .detail {
+    box-sizing: content-box;
+    height: 1.4375em;
+    padding: 4px 0 5px;
+}

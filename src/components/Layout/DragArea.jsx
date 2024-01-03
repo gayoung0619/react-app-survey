@@ -10,12 +10,16 @@ import TitleForm from "../Formbox/TitleForm.jsx";
 
 import FormContainer from "../Layout/FormContainer.jsx"
 import classes from './DragArea.module.css';
+import {useLocation} from "react-router-dom";
 
 const DragArea = () => {
+	const location = useLocation();
+	const { pathname } = location;
+	const isPreview = pathname === '/preview';
 	const dispatch = useDispatch();
 	const items = useSelector((state) => state.form.items );
 	const question = useSelector((state) => state.question );
-	console.log(question)
+
 	const handleDragEnd = (result) => {
 		if (!result.destination) {
 			return;
@@ -28,18 +32,12 @@ const DragArea = () => {
 		dispatch(updateFormOrder(updatedItems));
 	};
 
-	const handleAddButtonClick = () => {
-		const newItem = { id: `item-${uuidv4()}` };
-		dispatch(addForm(newItem));
-	};
-
 	return (
 		<Wrapper>
-			<button onClick={handleAddButtonClick}>Add</button>
 			<DragDropContext onDragEnd={handleDragEnd}>
 				<Droppable droppableId="droppable">
 					{(provided) => (
-						<div className={classes.itemWrap} {...provided.droppableProps} ref={provided.innerRef}>
+						<div {...provided.droppableProps} ref={provided.innerRef}>
 							<div className={classes.item}>
 								<Card>
 									<TitleForm />

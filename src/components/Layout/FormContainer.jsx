@@ -13,7 +13,7 @@ import ControlButton from "../Formbox/ControlButton.jsx";
 const FormContainer = (props) => {
 	const dispatch = useDispatch();
 	const formType = useSelector((state) => state.question.formType);
-	const question = useSelector((state) => state.question.question);
+	const question = useSelector((state) => state.question);
 	const theme = useTheme();
 	const renderForm = () => {
 		if (formType === '단답형' || formType === '장문형') {

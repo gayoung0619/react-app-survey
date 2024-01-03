@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Card from '../Layout/Card'
-import TitleForm from "../Formbox/TitleForm.jsx";
 import Wrapper from '../Layout/Wrapper';
+import TitleForm from "../Formbox/TitleForm.jsx";
+import FloatingBar from "../Layout/floatingBar.jsx";
+import DragArea from "../Layout/DragArea.jsx";
 
 const Preview = () => {
 	const dispatch = useDispatch();
 	const question = useSelector((state) => state.question);
-	console.log(question)
+
 	return (
-		<Wrapper>
-			<Card>
-				<TitleForm />
-			</Card>
-		</Wrapper>
+		<>
+			<DragArea />
+		</>
 	)
 }
 export default Preview;

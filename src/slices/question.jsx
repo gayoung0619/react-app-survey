@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	question: { title: '', detail: '' },
+	titleData: { title: '', detail: '' },
 	formType: '객관식 질문',
 	options: [
 		{ id: '1', name: '옵션1'},
@@ -14,10 +14,10 @@ const questionSlice = createSlice({
 	initialState,
 	reducers: {
 		updateTitle: (state, action) => {
-			state.question.title = action.payload
+			state.titleData.title = action.payload
 		},
 		updateDetail: (state, action) => {
-			state.question.detail = action.payload
+			state.titleData.detail = action.payload
 		},
 		updateFormType: (state, action) => {
 			state.formType = action.payload;
