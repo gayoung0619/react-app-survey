@@ -51,7 +51,7 @@ const FormContainer = ({ item }: Props) => {
 						<p>{item.formType}</p>
 					</div>
 				) : (
-					<div style={{display : 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+					<div>
 						<TextField
 							id="standard-basic"
 							variant="standard"
@@ -82,14 +82,11 @@ const FormContainer = ({ item }: Props) => {
 								<MenuItem value="드롭다운">드롭다운</MenuItem>
 							</Select>
 						</FormControl>
-						{/*<OptionDivider item={item} /> */}
+            {renderForm()}
+            <ControlButton />
 					</div>
 				)
 			}
-			{renderForm()}
-
-
-			<ControlButton />
 		</div>
 	)
 }

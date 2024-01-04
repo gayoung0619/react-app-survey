@@ -5,6 +5,8 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
+import Button from '@mui/material/Button';
+
 import {v4 as uuidv4} from "uuid";
 
 type Props = {
@@ -47,6 +49,12 @@ const OptionalQuestion = ({ item }: Props) => {
 		}));
 	};
 
+  const handleAddTextfield = () => {
+    dispatch(addOption({
+      id: item.id,
+      option: { id: `option-${uuidv4()}`, name: `기타...` }
+    }));
+  }
 	const showOptionalQuestion = (option: Option) => {
 		switch (formType) {
 			case '객관식 질문':
@@ -81,14 +89,39 @@ const OptionalQuestion = ({ item }: Props) => {
 						variant="standard"
 						onChange={(e) => handleOptionNameChange(option.id, e.target.value)}
 						InputProps={{
-							endAdornment: <ClearIcon onClick={() => handleRemoveOption(option.id)} />,
+              disableUnderline: true,
+							endAdornment:
+                <ClearIcon
+                  sx={{
+                    color: 'rgb(95,99,104)',
+                    padding: '5px',
+                    '&:hover': {
+                      backgroundColor: 'rgb(248, 249, 250)',
+                      borderRadius: '50%',
+                      cursor: 'pointer'
+                    },
+                  }}
+                  onClick={() => handleRemoveOption(option.id)}
+                />,
+              sx: {
+                fontSize: '11pt',
+                '&:hover': {
+                  borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
+                },
+              },
 						}}
 					/>
 				</div>
 			))}
-			<button onClick={handleAddOption}>
-				옵션 추가
-			</button>
+      <div style={{ display: 'flex', alignItems: 'center', fontSize: '11pt' }}>
+        <Button variant="text" onClick={handleAddOption} style={{ color: 'rgba(0, 0, 0, 0.42)', fontSize: 'inherit' }}>
+          옵션 추가
+        </Button>
+        또는
+        <Button variant="text" onClick={handleAddTextfield} style={{ fontSize: 'inherit' }}>
+          '기타'추가
+        </Button>
+      </div>
 		</FormControl>
 
 	);

@@ -31,7 +31,7 @@ const NarrativeQuestion = ({ item }: Props) => {
 						fontSize: '16px',
 						border: 'none',
 						backgroundColor: '#fff',
-						borderBottom: '1px solid rgba(0, 0, 0, 0.42)',  // 예시로 경계선 스타일 추가
+						borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
 						resize: 'none',
 					}}
 				/>

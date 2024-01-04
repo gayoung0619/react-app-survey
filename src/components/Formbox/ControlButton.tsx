@@ -1,9 +1,39 @@
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import IconButton from '@mui/material/IconButton';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 const ControlButton = () => {
 	return (
-		<div>
-			<button>복사</button>
-			<button>삭제</button>
-			<button>필수</button>
+		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+      <IconButton aria-label="copy" >
+        <ContentCopyIcon fontSize='small' />
+      </IconButton>
+      <IconButton aria-label="delete" >
+        <DeleteOutlineOutlinedIcon />
+      </IconButton>
+      <FormControlLabel
+        value="필수"
+        control={<Switch color="primary" />}
+        label="필수"
+        labelPlacement="start"
+        style={{
+          position: 'relative'
+        }}
+        sx={{
+          '::before': {
+            content: '""',
+            display: 'block',
+            position: 'absolute',
+            top: '8px',
+            left: '-10px',
+            width: '1px',
+            height: 'calc(100% - 16px)',
+            backgroundColor: 'rgba(0, 0, 0, 0.32)',
+            borderRadius: '8px 8px 0 0'
+          }
+        }}
+      />
 		</div>
 	)
 }
