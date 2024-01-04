@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Question, updateFormType, updateQuestion } from '../../slices/form.ts';
-import { useTheme } from '@mui/material/styles';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';        
 import MenuItem from '@mui/material/MenuItem';
@@ -11,7 +10,7 @@ import NarrativeQuestion from '../Formbox/NarrativeQuestion.tsx';
 import OptionalQuestion from '../Formbox/OptionalQuestion.tsx';
 import TextField from "@mui/material/TextField";
 import ControlButton from "../Formbox/ControlButton.tsx";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 
 type Props = {
@@ -19,7 +18,6 @@ type Props = {
 }
 
 const FormContainer = ({ item }: Props) => {
-	const theme = useTheme();
 	const location = useLocation();
 	const { pathname } = location;
 	const isPreview = pathname === '/preview';
@@ -61,7 +59,7 @@ const FormContainer = ({ item }: Props) => {
 							className="inputs__title"
 							placeholder="질문"
 							name="question"
-							sx={{ width: '80%', backgroundColor: 'red', marginBottom: '8px' }}
+							sx={{ width: '80%', backgroundColor: 'rgb(248, 249, 250)', marginBottom: '8px' }}
 							InputProps={{
 								style: { padding: '16px' } // 원하는 padding 값을 지정합니다.
 							}}

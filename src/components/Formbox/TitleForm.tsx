@@ -36,7 +36,7 @@ const TitleForm = () => {
 							left: 0,
 							width: '100%',
 							height: '10px',
-							backgroundColor: 'red',
+							backgroundColor: theme.palette.primary.main,
 							borderRadius: '8px 8px 0 0'
 						}
 					}}

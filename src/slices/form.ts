@@ -26,23 +26,14 @@ const question: Question = {
 
 const initialState: { items: Question[] } = {
 	items: [
-		// {
-		// 	question: '',
-		// 	formType: '객관식 질문',
-		// 	options: [
-		// 		{ id: '1', name: '옵션1'},
-		// 		{ id: '2', name: '옵션2' },
-		// 	]
-		// },
-		// {
-		// 	question: '',
-		// 	formType: '객관식 질문',
-		// 	options: [
-		// 		{ id: '1', name: '옵션1'},
-		// 		{ id: '2', name: '옵션2' },
-		//      { id: '2', name: '옵션2' },
-		// 	]
-		// }
+		/*{
+			question: '',
+			formType: '객관식 질문',
+			options: [
+				{ id: '1', name: '옵션1'},
+				{ id: '2', name: '옵션2' },
+			]
+		},*/
 	],
 };
 
@@ -57,15 +48,8 @@ const formSlice = createSlice({
 					// draft.id = '새로운 값'
 				})
 			*/
-			/* 
-				const newItem = {
-					...question,
-					options: question.options.map((question) => { ...question })
-				}; 
-			*/
-
 			const newItem = produce(question, (draft) => {
-				draft.id = `item-${uuidv4()}`;;
+				draft.id = `item-${uuidv4()}`;
 			})
 			state.items.push(newItem);
 		},

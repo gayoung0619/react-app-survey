@@ -5,6 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
+import {v4 as uuidv4} from "uuid";
 
 type Props = {
 	item: Question
@@ -34,7 +35,7 @@ const OptionalQuestion = ({ item }: Props) => {
 	const handleAddOption = () => {
 		dispatch(addOption({
 			id: item.id,
-			option: { id: Date.now().toString(), name: `옵션${options.length + 1}` }
+			option: { id: `option-${uuidv4()}`, name: `옵션${options.length + 1}` }
 		}));
 	};
 
