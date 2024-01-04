@@ -126,7 +126,13 @@ const formSlice = createSlice({
       });
 
       state.items.push(newItem);
+    },
+
+    deleteForm : (state, action) => {
+      const itemId = action.payload.id;
+      state.items = state.items.filter((item) => item.id !== itemId)
     }
+
 	},
 });
 
@@ -139,6 +145,7 @@ export const {
   addOption,
   removeOption,
   updateOptionName,
-  copyForm
+  copyForm,
+  deleteForm
 } = formSlice.actions
 export default formSlice.reducer;

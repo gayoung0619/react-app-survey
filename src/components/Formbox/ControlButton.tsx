@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Question, copyForm } from "../../slices/form";
+import { Question, copyForm, deleteForm } from "../../slices/form";
 
 type Props = {
   item: Question
@@ -16,13 +16,17 @@ const ControlButton = ({ item }: Props) => {
   const handleCopy = () => {
     dispatch(copyForm({ id: item.id }));
   };
+
+  const handleDelete = () => {
+    dispatch(deleteForm({ id: item.id }))
+  }
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
       <IconButton aria-label="copy" onClick={handleCopy} >
         <ContentCopyIcon fontSize='small' />
       </IconButton>
 
-      <IconButton aria-label="delete" >
+      <IconButton aria-label="delete" onClick={handleDelete} >
         <DeleteOutlineOutlinedIcon />
       </IconButton>
 
