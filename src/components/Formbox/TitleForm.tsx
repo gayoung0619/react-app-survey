@@ -3,7 +3,8 @@ import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from "react-redux";
-import { updateTitle, updateDetail } from "../../slices/question.jsx";
+import { updateTitle, updateDetail } from "../../slices/title.ts";
+import { RootState } from "../../store";
 import { useLocation } from "react-router-dom";
 
 import classes from "./TitleForm.module.css";
@@ -15,11 +16,12 @@ const TitleForm = () => {
 
 		const theme = useTheme();
 		const dispatch = useDispatch();
-		const question = useSelector((state) => state.question);
-		const handleTitleChange = (event) => {
+		const title = useSelector((state: RootState) => state.title);
+		const handleTitleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
 			dispatch(updateTitle(event.target.value));
 		}
-		const handleDetailChange = (event) => {
+
+		const handleDetailChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
 			dispatch(updateDetail(event.target.value));
 		}
 		return (
@@ -34,7 +36,7 @@ const TitleForm = () => {
 							left: 0,
 							width: '100%',
 							height: '10px',
-							backgroundColor: theme.palette.purple.main,
+							backgroundColor: 'red',
 							borderRadius: '8px 8px 0 0'
 						}
 					}}
@@ -42,8 +44,8 @@ const TitleForm = () => {
 				{
 					isPreview ? (
 						<div className={classes.preview}>
-							<p className={classes.title} style={{ fontSize: '24pt', marginBottom: '8px' }}>{question.titleData.title}</p>
-							<p className={classes.detail}>{question.titleData.detail}</p>
+							<p className={classes.title} style={{ fontSize: '24pt', marginBottom: '8px' }}>{title.title}</p>
+							<p className={classes.detail}>{title.detail}</p>
 						</div>
 					) : (
 						<>
@@ -58,7 +60,7 @@ const TitleForm = () => {
 								inputProps={{ style: { fontSize: '2rem' } }}
 								sx={{ marginBottom: '8px' }}
 								onChange={handleTitleChange}
-								value={question.titleData.title}
+								value={title.title}
 							/>
 							<TextField
 								id="standard-basic"
@@ -69,7 +71,7 @@ const TitleForm = () => {
 								name="detail"
 								fullWidth
 								onChange={handleDetailChange}
-								value={question.titleData.detail}
+								value={title.detail}
 							/>
 						</>
 					)

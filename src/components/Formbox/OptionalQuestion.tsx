@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateOptions, addOption, removeOption, updateOptionName } from '../../slices/question';
+import { useDispatch } from 'react-redux';
+import { updateOptions, addOption, removeOption, updateOptionName, Option, Question } from '../../slices/form.ts';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
 
+type Props = {
+	item: Question
+}
 
-const OptionalQuestion = () => {
+const OptionalQuestion = ({ item }: Props) => {
 	const dispatch = useDispatch();
-	const formType = useSelector((state) => state.question.formType);
-	const options = useSelector((state) => state.question.options);
-	const [value, setValue] = React.useState('');
+	const { options, formType } = item;
 
-	const handleOptionChange = (id) => {
+
+	const handleOptionChange = (id: string) => {
 		const updatedOptions = options.map((option) =>
 			option.id === id ? { ...option } : option
 		);
@@ -22,20 +23,30 @@ const OptionalQuestion = () => {
 		dispatch(updateOptions(updatedOptions));
 	};
 
-	const handleOptionNameChange = (id, newName) => {
-		dispatch(updateOptionName({ id, newName }));
+	const handleOptionNameChange = (optionId: string, newName: string) => {
+		dispatch(updateOptionName({
+			id: item.id, 
+			optionId, 
+			newName 
+		}));
 	};
 
 	const handleAddOption = () => {
-		dispatch(addOption({ id: Date.now().toString(), name: `옵션${options.length + 1}` }));
-		setValue('');
+		dispatch(addOption({
+			id: item.id,
+			option: { id: Date.now().toString(), name: `옵션${options.length + 1}` }
+		}));
 	};
 
-	const handleRemoveOption = (id) => {
-		dispatch(removeOption(id));
+	const handleRemoveOption = (optionId: string) => {
+		console.log(optionId);
+		dispatch(removeOption({
+			id: item.id,
+			optionId
+		}));
 	};
 
-	const showOptionalQuestion = (option) => {
+	const showOptionalQuestion = (option: Option) => {
 		switch (formType) {
 			case '객관식 질문':
 				return (
@@ -48,7 +59,6 @@ const OptionalQuestion = () => {
 			case '체크박스':
 				return (
 					<Checkbox
-						disabled
 						onChange={() => handleOptionChange(option.id)}
 						name={`checkbox-${option.id}`}
 					/>
@@ -75,7 +85,7 @@ const OptionalQuestion = () => {
 					/>
 				</div>
 			))}
-			<button variant="outlined" onClick={handleAddOption}>
+			<button onClick={handleAddOption}>
 				옵션 추가
 			</button>
 		</FormControl>

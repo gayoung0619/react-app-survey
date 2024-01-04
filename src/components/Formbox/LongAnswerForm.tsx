@@ -1,5 +1,4 @@
 // LongAnswerForm.js
-import React from 'react';
 
 const LongAnswerForm = () => {
 	return (

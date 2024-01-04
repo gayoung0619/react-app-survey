@@ -1,9 +1,6 @@
-import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { DragDropContext } from 'react-beautiful-dnd';
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createGlobalStyle } from 'styled-components';
-import TextField from '@mui/material/TextField';
 
 import Form from './components/pages/Form'
 import Preview from './components/pages/Preview'
@@ -21,22 +18,9 @@ const GlobalStyle = createGlobalStyle`
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: 'rgb(103, 58, 183)',
-		},
-		purple: {
-			main: 'rgb(103, 58, 183)',
-		},
-		blue: {
-			main: '#4285f4',
-		},
-		transparent: {
-			main: 'transparent',
-		},
-		grey: {
-			main: '#70757a',
-			light: 'rgb(248, 249, 250)',
-		},
-	}
+			500: 'rgb(103, 58, 183)',
+		}
+	},
 });
 
 const router = createBrowserRouter([
@@ -54,10 +38,7 @@ function App() {
 		<>
 			<GlobalStyle />
 			<ThemeProvider theme={theme}>
-				<RouterProvider router={router} >
-					<DragDropContext>
-					</DragDropContext>
-				</ RouterProvider>
+				<RouterProvider router={router} />
 			</ThemeProvider>
 		</>
   )

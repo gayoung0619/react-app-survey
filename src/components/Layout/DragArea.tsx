@@ -1,26 +1,21 @@
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { addForm, updateFormOrder } from '../../slices/form'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { v4 as uuidv4 } from 'uuid';
+import { updateFormOrder } from '../../slices/form.ts'
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 
 import Wrapper from "./Wrapper.jsx";
-import Card from './Card';
-import TitleForm from "../Formbox/TitleForm.jsx";
+import Card from './Card.js';
+import TitleForm from "../Formbox/TitleForm.tsx";
 
-import FormContainer from "../Layout/FormContainer.jsx"
+import FormContainer from "./FormContainer.tsx"
 import classes from './DragArea.module.css';
-import {useLocation} from "react-router-dom";
+
+import { RootState } from "../../store";
 
 const DragArea = () => {
-	const location = useLocation();
-	const { pathname } = location;
-	const isPreview = pathname === '/preview';
 	const dispatch = useDispatch();
-	const items = useSelector((state) => state.form.items );
-	const question = useSelector((state) => state.question );
+	const items = useSelector((state: RootState) => state.form.items );
 
-	const handleDragEnd = (result) => {
+	const handleDragEnd = (result: DropResult) => {
 		if (!result.destination) {
 			return;
 		}
@@ -59,7 +54,7 @@ const DragArea = () => {
 										>
 											<Card>
 												{/* 다른 드래그 가능한 내용 */}
-												<FormContainer />
+												<FormContainer item={item} />
 											</Card>
 										</div>
 									)}
