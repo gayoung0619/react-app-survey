@@ -113,8 +113,32 @@ const formSlice = createSlice({
 
 			option.name = newName
 		},
+
+    copyForm : (state, action) => {
+      const item = state.items.find((item) => {
+        return item.id === action.payload.id
+      });
+
+      if(!item) return state;
+
+      const newItem = produce(item, (draft) => {
+        draft.id = `item-${uuidv4()}`;
+      });
+
+      state.items.push(newItem);
+    }
 	},
 });
 
-export const { addForm, updateFormOrder, updateFormType, updateQuestion, updateOptions, addOption, removeOption, updateOptionName} = formSlice.actions
+export const {
+  addForm,
+  updateFormOrder,
+  updateFormType,
+  updateQuestion,
+  updateOptions,
+  addOption,
+  removeOption,
+  updateOptionName,
+  copyForm
+} = formSlice.actions
 export default formSlice.reducer;

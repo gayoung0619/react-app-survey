@@ -83,7 +83,7 @@ const FormContainer = ({ item }: Props) => {
 							</Select>
 						</FormControl>
             {renderForm()}
-            <ControlButton />
+            <ControlButton item={item} />
 					</div>
 				)
 			}

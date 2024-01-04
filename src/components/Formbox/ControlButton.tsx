@@ -1,17 +1,31 @@
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-const ControlButton = () => {
+import { Question, copyForm } from "../../slices/form";
+
+type Props = {
+  item: Question
+}
+
+const ControlButton = ({ item }: Props) => {
+  const dispatch = useDispatch();
+  const handleCopy = () => {
+    dispatch(copyForm({ id: item.id }));
+  };
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-      <IconButton aria-label="copy" >
+      <IconButton aria-label="copy" onClick={handleCopy} >
         <ContentCopyIcon fontSize='small' />
       </IconButton>
+
       <IconButton aria-label="delete" >
         <DeleteOutlineOutlinedIcon />
       </IconButton>
+
       <FormControlLabel
         value="필수"
         control={<Switch color="primary" />}
