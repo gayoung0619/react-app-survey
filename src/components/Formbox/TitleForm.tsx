@@ -6,14 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateTitle, updateDetail } from "../../slices/title.ts";
 import { RootState } from "../../store";
 import { useLocation } from "react-router-dom";
-
 import classes from "./TitleForm.module.css";
 
 const TitleForm = () => {
 	const location = useLocation();
 	const { pathname } = location;
 	const isPreview = pathname === '/preview';
-
 		const theme = useTheme();
 		const dispatch = useDispatch();
 		const title = useSelector((state: RootState) => state.title);
@@ -46,6 +44,13 @@ const TitleForm = () => {
 						<div className={classes.preview}>
 							<p className={classes.title} style={{ fontSize: '24pt', marginBottom: '8px' }}>{title.title}</p>
 							<p className={classes.detail}>{title.detail}</p>
+              <span
+                style={{
+                  display: 'inline-block',
+                  marginTop: '10px',
+                  color: 'red',
+                  fontSize: '13px',
+                }}>* 표시는 필수 질문임</span>
 						</div>
 					) : (
 						<>

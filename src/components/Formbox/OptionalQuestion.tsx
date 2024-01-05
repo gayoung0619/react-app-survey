@@ -7,7 +7,8 @@ import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
 
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
+import { useLocation } from "react-router-dom";
 
 type Props = {
 	item: Question
@@ -15,7 +16,10 @@ type Props = {
 
 const OptionalQuestion = ({ item }: Props) => {
 	const dispatch = useDispatch();
-	const { options, formType } = item;
+  const location = useLocation();
+  const { pathname } = location;
+  const isPreview = pathname === '/preview';
+	const { options, formType, isRequired } = item;
 
 
 	const handleOptionChange = (id: string) => {
@@ -60,7 +64,7 @@ const OptionalQuestion = ({ item }: Props) => {
 			case '객관식 질문':
 				return (
 					<Radio
-						disabled
+						disabled={!isPreview}
 						onChange={() => handleOptionChange(option.id)}
 						name={`radio-${option.id}`}
 					/>
@@ -68,6 +72,7 @@ const OptionalQuestion = ({ item }: Props) => {
 			case '체크박스':
 				return (
 					<Checkbox
+            disabled={!isPreview}
 						onChange={() => handleOptionChange(option.id)}
 						name={`checkbox-${option.id}`}
 					/>
@@ -79,52 +84,58 @@ const OptionalQuestion = ({ item }: Props) => {
 		}
 	}
 	return (
-		<FormControl sx={{ width: '100%' }}>
-			{options.map((option) => (
-				<div key={option.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-					{showOptionalQuestion(option)}
-					<TextField
-						value={option.name || ''}
-						fullWidth
-						variant="standard"
-						onChange={(e) => handleOptionNameChange(option.id, e.target.value)}
-						InputProps={{
-              disableUnderline: true,
-							endAdornment:
-                <ClearIcon
-                  sx={{
-                    color: 'rgb(95,99,104)',
-                    padding: '5px',
-                    '&:hover': {
-                      backgroundColor: 'rgb(248, 249, 250)',
-                      borderRadius: '50%',
-                      cursor: 'pointer'
-                    },
-                  }}
-                  onClick={() => handleRemoveOption(option.id)}
-                />,
-              sx: {
-                fontSize: '11pt',
-                '&:hover': {
-                  borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
+    <>
+      <FormControl sx={{ width: '100%' }}>
+        {options.map((option) => (
+          <div key={option.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+            {showOptionalQuestion(option)}
+            <TextField
+              value={option.name || ''}
+              fullWidth
+              variant="standard"
+              disabled={isPreview}
+              onChange={(e) => handleOptionNameChange(option.id, e.target.value)}
+              InputProps={{
+                disableUnderline: true,
+                endAdornment:
+                  !isPreview && (<ClearIcon
+                    sx={{
+                      color: 'rgb(95,99,104)',
+                      padding: '5px',
+                      '&:hover': {
+                        backgroundColor: 'rgb(248, 249, 250)',
+                        borderRadius: '50%',
+                        cursor: 'pointer'
+                      },
+                    }}
+                    onClick={() => handleRemoveOption(option.id)}
+                  />),
+                sx: {
+                  fontSize: '11pt',
+                  '&:hover': {
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
+                  },
                 },
-              },
-						}}
-					/>
-				</div>
-			))}
-      <div style={{ display: 'flex', alignItems: 'center', fontSize: '11pt' }}>
-        <Button variant="text" onClick={handleAddOption} style={{ color: 'rgba(0, 0, 0, 0.42)', fontSize: 'inherit' }}>
-          옵션 추가
-        </Button>
-        또는
-        <Button variant="text" onClick={handleAddTextfield} style={{ fontSize: 'inherit' }}>
-          '기타'추가
-        </Button>
-      </div>
-		</FormControl>
-
-	);
+              }}
+            />
+          </div>
+        ))}
+        {
+          !isPreview && (
+            <div style={{ display: 'flex', alignItems: 'center', fontSize: '11pt' }}>
+              <Button variant="text" onClick={handleAddOption} style={{ color: 'rgba(0, 0, 0, 0.42)', fontSize: 'inherit' }}>
+                옵션 추가
+              </Button>
+              또는
+              <Button variant="text" onClick={handleAddTextfield} style={{ fontSize: 'inherit' }}>
+                '기타'추가
+              </Button>
+            </div>
+          )
+        }
+      </FormControl>
+    </>
+	)
 };
 
 export default OptionalQuestion;
