@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { updateOptions, addOption, removeOption, updateOptionName, updateOptionTextDisabled, Option, Question } from '../../slices/form.ts';
+import { updateOptions, addOption, removeOption, updateOptionName, Option, Question } from '../../slices/form.ts';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -19,15 +19,14 @@ const OptionalQuestion = ({ item }: Props) => {
   const location = useLocation();
   const { pathname } = location;
   const isPreview = pathname === '/preview';
-	const { options, formType, isRequired } = item;
+	const { options, formType } = item;
 
 
-	const handleOptionChange = (id: string) => {
-		const updatedOptions = options.map((option) =>
-			option.id === id ? { ...option } : option
-		);
-
-		dispatch(updateOptions(updatedOptions));
+	const handleOptionChange = (name: string) => {
+		dispatch(updateOptions({
+      id: item.id,
+      checkedOption: name
+    }));
 	};
 
 	const handleOptionNameChange = (optionId: string, newName: string) => {
@@ -65,18 +64,21 @@ const OptionalQuestion = ({ item }: Props) => {
 		switch (formType) {
 			case '객관식 질문':
 				return (
-					<Radio
-						disabled={!isPreview}
-						onChange={() => handleOptionChange(option.id)}
-						name={`radio-${option.id}`}
-					/>
+          <Radio
+            disabled={!isPreview}
+            checked={option.name === item.checkedOption}
+            onChange={() => handleOptionChange(option.name)}
+            name={`radio-${item.question}`}
+            value={option.name}
+          />
 				)
 			case '체크박스':
 				return (
 					<Checkbox
             disabled={!isPreview}
-						onChange={() => handleOptionChange(option.id)}
-						name={`checkbox-${option.id}`}
+						onChange={() => handleOptionChange(option.name)}
+						name={`checkbox-${item.question}`}
+            value={option.name}
 					/>
 				);
 			case '드롭다운':

@@ -13,6 +13,7 @@ export type Question = {
 	question: string;
 	formType: string;
 	options: Option[];
+  checkedOption: string;
   isRequired: boolean;
 }
 
@@ -24,6 +25,7 @@ const question: Question = {
 		{ id: '1', name: '옵션1', textDisabled: false },
 		{ id: '2', name: '옵션2', textDisabled: false },
 	],
+  checkedOption: '',
   isRequired: false,
 }
 
@@ -82,7 +84,13 @@ const formSlice = createSlice({
 		},
 
 		updateOptions: (state, action) => {
-			state.options = action.payload;
+      const item = state.items.find((item) => {
+        return item.id === action.payload.id
+      });
+
+      if(!item) return state;
+
+      item.checkedOption = action.payload.checkedOption
 		},
 
 		addOption: (state, action) => {
