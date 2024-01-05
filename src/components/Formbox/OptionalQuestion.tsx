@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { updateOptions, addOption, removeOption, updateOptionName, Option, Question } from '../../slices/form.ts';
+import { updateOptions, addOption, removeOption, updateOptionName, updateOptionTextDisabled, Option, Question } from '../../slices/form.ts';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
@@ -39,9 +39,10 @@ const OptionalQuestion = ({ item }: Props) => {
 	};
 
 	const handleAddOption = () => {
+    const newOption = { id: `option-${uuidv4()}`, name: `옵션${options.length + 1}`, textDisabled: false }
 		dispatch(addOption({
 			id: item.id,
-			option: { id: `option-${uuidv4()}`, name: `옵션${options.length + 1}` }
+			option: newOption
 		}));
 	};
 
@@ -54,9 +55,10 @@ const OptionalQuestion = ({ item }: Props) => {
 	};
 
   const handleAddTextfield = () => {
+    const newOption = { id: `option-${uuidv4()}`, name: '기타...',  textDisabled: true };
     dispatch(addOption({
       id: item.id,
-      option: { id: `option-${uuidv4()}`, name: `기타...` }
+      option:  newOption
     }));
   }
 	const showOptionalQuestion = (option: Option) => {
@@ -93,7 +95,7 @@ const OptionalQuestion = ({ item }: Props) => {
               value={option.name || ''}
               fullWidth
               variant="standard"
-              disabled={isPreview}
+              disabled={isPreview? !option.textDisabled : option.textDisabled}
               onChange={(e) => handleOptionNameChange(option.id, e.target.value)}
               InputProps={{
                 disableUnderline: true,
@@ -119,7 +121,8 @@ const OptionalQuestion = ({ item }: Props) => {
               }}
             />
           </div>
-        ))}
+          ))
+        }
         {
           !isPreview && (
             <div style={{ display: 'flex', alignItems: 'center', fontSize: '11pt' }}>

@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from "uuid";
 import { produce } from 'immer';
 
-export type Option = { 
+export type Option = {
 	id: string, 
-	name: string
+	name: string,
+  textDisabled: boolean;
 };
 
 export type Question = {
@@ -20,8 +21,8 @@ const question: Question = {
 	question: '',
 	formType: '객관식 질문',
 	options: [
-		{ id: '1', name: '옵션1'},
-		{ id: '2', name: '옵션2' },
+		{ id: '1', name: '옵션1', textDisabled: false },
+		{ id: '2', name: '옵션2', textDisabled: false },
 	],
   isRequired: false,
 }
@@ -35,6 +36,7 @@ const initialState: { items: Question[] } = {
 				{ id: '1', name: '옵션1'},
 				{ id: '2', name: '옵션2' },
 			]
+			isRequired: false,
 		},*/
 	],
 };
