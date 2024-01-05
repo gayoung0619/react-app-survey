@@ -12,6 +12,7 @@ export type Question = {
 	question: string;
 	formType: string;
 	options: Option[];
+  isRequired: boolean;
 }
 
 const question: Question = {
@@ -21,7 +22,8 @@ const question: Question = {
 	options: [
 		{ id: '1', name: '옵션1'},
 		{ id: '2', name: '옵션2' },
-	]
+	],
+  isRequired: false,
 }
 
 const initialState: { items: Question[] } = {
@@ -114,7 +116,7 @@ const formSlice = createSlice({
 			option.name = newName
 		},
 
-    copyForm : (state, action) => {
+    copyForm: (state, action) => {
       const item = state.items.find((item) => {
         return item.id === action.payload.id
       });
@@ -128,11 +130,21 @@ const formSlice = createSlice({
       state.items.push(newItem);
     },
 
-    deleteForm : (state, action) => {
+    deleteForm: (state, action) => {
       const itemId = action.payload.id;
       state.items = state.items.filter((item) => item.id !== itemId)
-    }
+    },
 
+    requiredForm: (state, action) => {
+      const itemId = action.payload.id;
+      const item = state.items.find((item) => {
+        return item.id === itemId
+      });
+
+      if (!item) return state;
+
+      item.isRequired = action.payload.isRequired;
+    }
 	},
 });
 
@@ -146,6 +158,7 @@ export const {
   removeOption,
   updateOptionName,
   copyForm,
-  deleteForm
+  deleteForm,
+  requiredForm
 } = formSlice.actions
 export default formSlice.reducer;

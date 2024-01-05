@@ -1,11 +1,10 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { Question, copyForm, deleteForm } from "../../slices/form";
+import { Question, copyForm, deleteForm, requiredForm } from "../../slices/form";
 
 type Props = {
   item: Question
@@ -20,6 +19,14 @@ const ControlButton = ({ item }: Props) => {
   const handleDelete = () => {
     dispatch(deleteForm({ id: item.id }))
   }
+
+  const handleRequired = () => {
+    dispatch(requiredForm({
+      id: item.id,
+      isRequired: !item.isRequired
+    }));
+  }
+
 	return (
 		<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
       <IconButton aria-label="copy" onClick={handleCopy} >
@@ -35,6 +42,7 @@ const ControlButton = ({ item }: Props) => {
         control={<Switch color="primary" />}
         label="필수"
         labelPlacement="start"
+        onClick={handleRequired}
         style={{
           position: 'relative'
         }}
