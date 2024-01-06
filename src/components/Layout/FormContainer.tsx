@@ -1,16 +1,15 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Question, updateFormType, updateQuestion } from '../../slices/form.ts';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';        
-import MenuItem from '@mui/material/MenuItem';
+import { useLocation } from "react-router-dom";
 import { SelectChangeEvent } from "@mui/material";
-
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import NarrativeQuestion from '../Formbox/NarrativeQuestion.tsx';
 import OptionalQuestion from '../Formbox/OptionalQuestion.tsx';
 import TextField from "@mui/material/TextField";
 import ControlButton from "../Formbox/ControlButton.tsx";
-import { useLocation } from "react-router-dom";
 
 
 type Props = {
@@ -87,9 +86,7 @@ const FormContainer = ({ item }: Props) => {
         </>
       }
       {renderForm()}
-      {
-        isPreview || <ControlButton item={item} />
-      }
+      {isPreview || <ControlButton item={item} />}
     </div>
 	)
 }
