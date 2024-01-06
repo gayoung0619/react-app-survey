@@ -4,13 +4,22 @@
     border-radius: 8px;
 }
 
-/*.item::before {*/
-/*    content: "";*/
-/*    display: block;*/
-/*    position: absolute;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    height: 100%;*/
-/*    width: 6px;*/
-/*    background-color: #4285f4;*/
-/*}*/
+.item.isDragging {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.item.isNotDragging {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.item.isCurrentForm::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background-color: #4285f4;
+    border-radius: 8px 0 0 8px;
+}

@@ -1,18 +1,16 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { resetForm, updateFormOrder} from '../../slices/form.ts'
+import { useNavigate, useLocation } from "react-router-dom";
+import { updateFormOrder, resetForm, currentForm } from '../../slices/form.ts'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
-
+import { RootState } from "../../store";
+import Button from "@mui/material/Button";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Wrapper from "./Wrapper.jsx";
 import Card from './Card.js';
 import TitleForm from "../Formbox/TitleForm.tsx";
-
 import FormContainer from "./FormContainer.tsx"
 import classes from './DragArea.module.css';
-
-import { RootState } from "../../store";
-import Button from "@mui/material/Button";
-import { useLocation } from "react-router-dom";
 
 const DragArea = () => {
   const navigate = useNavigate();
@@ -20,7 +18,13 @@ const DragArea = () => {
   const { pathname } = location;
   const isPreview = pathname === '/preview';
 	const dispatch = useDispatch();
-	const items = useSelector((state: RootState) => state.form.items);
+  const items = useSelector((state: RootState) => state.form.items);
+	const currentFormId = useSelector((state: RootState) => state.form.currentFormId);
+  const [isSubmitClicked, setSubmitClicked] = useState(false); // submit 클릭 여부를 상태로 추가
+
+  const handleCardClick = (itemId: string) => {
+    dispatch(currentForm({ itemId }));
+  };
 
 	const handleDragEnd = (result: DropResult) => {
 		if (!result.destination) {
@@ -35,16 +39,24 @@ const DragArea = () => {
 	};
 
   const handleSubmit = () => {
-    items.map((item)=>{
-      if (item.isRequired && item.inputValue === '' && item.checkedOption === '') {
-        console.log('폼제출 안함');
-      }else {
-        alert('폼이 제출되었습니다.');
-        navigate("/");  // 홈으로 이동
-        dispatch(resetForm())
+    setSubmitClicked(true);
+    const isAnyFieldEmpty = items.some((item) => {
+      if (item.isRequired) {
+        if (item.inputValue.trim() === '' && item.checkedOption === '') {
+          return true; // 하나라도 비어 있으면 true 반환
+        }
       }
-    })
-  }
+      return false; // 필수가 아니거나, 비어 있지 않으면 false 반환
+    });
+
+    if (isAnyFieldEmpty) {
+      console.log('필수 질문에 답하지 않아 폼을 제출할 수 없습니다.');
+    } else {
+      alert('폼이 제출되었습니다.');
+      navigate("/");  // 홈으로 이동
+      dispatch(resetForm());
+    }
+  };
 
 	return (
 		<Wrapper>
@@ -62,18 +74,29 @@ const DragArea = () => {
 								<Draggable key={item.id} draggableId={item.id} index={index}>
 									{(provided, snapshot) => (
 										<div
-											className={classes.item}
+											className={`${classes.item} ${
+                        snapshot.isDragging ? classes.isDragging : classes.isNotDragging
+                      } ${
+                        currentFormId === item.id
+                          ? classes.isCurrentForm
+                          : classes.isNotCurrentForm
+                      }`}
 											ref={provided.innerRef}
 											{...provided.draggableProps}
 											{...provided.dragHandleProps}
+                      onClick={() => handleCardClick(item.id)}
 											style={{
-												backgroundColor: snapshot.isDragging ? 'rgba(255,255,255, .5)' : 'rgba(255,255,255, 1)',
-												...provided.draggableProps.style,
+                        ...provided.draggableProps.style,
 											}}
 										>
 											<Card>
 												{/* 다른 드래그 가능한 내용 */}
 												<FormContainer item={item} />
+                        {isSubmitClicked &&isPreview && item.isRequired && item.inputValue.trim() === '' && item.checkedOption === '' && (
+                          <div key={item.id} style={{ display: 'flex', alignItems: 'center', color: 'red', marginTop: '5px', fontSize: '13px' }}>
+                            <ErrorOutlineIcon style={{ marginRight: '10px' }} />필수 질문입니다
+                          </div>
+                        )}
 											</Card>
 										</div>
 									)}
