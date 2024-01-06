@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { updateOptions, addOption, removeOption, updateOptionName, Option, Question } from '../../slices/form.ts';
 import Radio from '@mui/material/Radio';
@@ -48,7 +49,6 @@ const OptionalQuestion = ({ item }: Props) => {
 	};
 
 	const handleRemoveOption = (optionId: string) => {
-		console.log(optionId);
 		dispatch(removeOption({
 			id: item.id,
 			optionId
@@ -61,7 +61,15 @@ const OptionalQuestion = ({ item }: Props) => {
       id: item.id,
       option:  newOption
     }));
-  }
+  };
+
+  const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    dispatch(updateOptions({
+      id: item.id,
+      checkedOption: event.target.value as string,
+    }));
+  };
+
 	const showOptionalQuestion = (option: Option, index: number) => {
 		switch (formType) {
 			case '객관식 질문':
@@ -93,6 +101,7 @@ const OptionalQuestion = ({ item }: Props) => {
 				return;
 		}
 	}
+
 	return (
     <>
       <FormControl sx={{ width: '100%' }}>
@@ -133,7 +142,7 @@ const OptionalQuestion = ({ item }: Props) => {
         }
 
         {isPreview && formType === '드롭다운' &&  (
-          <Select>
+          <Select value={item.checkedOption} onChange={handleSelectChange}>
             {options.map((option) => (
               <MenuItem key={option.id} value={option.name}>{option.name}</MenuItem>
             ))}

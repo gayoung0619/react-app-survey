@@ -14,7 +14,7 @@ const NarrativeQuestion = ({ item }: Props) => {
 	const { pathname } = location;
 	const isPreview = pathname === '/preview';
   const dispatch = useDispatch();
-  const handleTextChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleTextChange: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
     const newValue = event.target.value;
     dispatch(updateTextValue({ id: item.id, inputValue: newValue }));
   }
