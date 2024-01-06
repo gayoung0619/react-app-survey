@@ -137,7 +137,7 @@ const OptionalQuestion = ({ item }: Props) => {
                         onMouseEnter={() => setHoveredOption(index)}
                         onMouseLeave={() => setHoveredOption(null)}
                       >
-                        {(hoveredOption === index || snapshot.isDragging) && (
+                        {!isPreview && (hoveredOption === index || snapshot.isDragging) && (
                           <DragIndicatorIcon
                             style={{
                               position: 'absolute',
