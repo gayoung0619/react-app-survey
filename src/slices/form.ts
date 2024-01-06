@@ -13,8 +13,10 @@ export type Question = {
 	question: string;
 	formType: string;
 	options: Option[];
+  inputValue: string;
   checkedOption: string;
   isRequired: boolean;
+  isValid: boolean;
 }
 
 const question: Question = {
@@ -25,22 +27,14 @@ const question: Question = {
 		{ id: '1', name: '옵션1', textDisabled: false },
 		{ id: '2', name: '옵션2', textDisabled: false },
 	],
+  inputValue: '',
   checkedOption: '',
   isRequired: false,
+  isValid: false
 }
 
 const initialState: { items: Question[] } = {
-	items: [
-		/*{
-			question: '',
-			formType: '객관식 질문',
-			options: [
-				{ id: '1', name: '옵션1'},
-				{ id: '2', name: '옵션2' },
-			]
-			isRequired: false,
-		},*/
-	],
+	items: [],
 };
 
 const formSlice = createSlice({
@@ -59,6 +53,7 @@ const formSlice = createSlice({
 			})
 			state.items.push(newItem);
 		},
+
 		updateFormOrder: (state, action) => {
 			state.items = action.payload;
 		},
@@ -82,6 +77,16 @@ const formSlice = createSlice({
 			
 			item.question = action.payload.question
 		},
+
+    updateTextValue: (state, action) => {
+      const item = state.items.find((item) => {
+        return item.id === action.payload.id
+      });
+
+      if(!item) return state;
+
+      item.inputValue = action.payload.inputValue;
+    },
 
 		updateOptions: (state, action) => {
       const item = state.items.find((item) => {
@@ -154,7 +159,12 @@ const formSlice = createSlice({
       if (!item) return state;
 
       item.isRequired = action.payload.isRequired;
-    }
+    },
+
+    resetForm: (state) => {
+      // Reset the form state to its initial state
+      state.items = initialState.items;
+    },
 	},
 });
 
@@ -164,11 +174,13 @@ export const {
   updateFormType,
   updateQuestion,
   updateOptions,
+  updateTextValue,
   addOption,
   removeOption,
   updateOptionName,
   copyForm,
   deleteForm,
-  requiredForm
+  requiredForm,
+  resetForm
 } = formSlice.actions
 export default formSlice.reducer;
