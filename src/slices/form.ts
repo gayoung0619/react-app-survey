@@ -30,11 +30,12 @@ const question: Question = {
   inputValue: '',
   checkedOption: '',
   isRequired: false,
-  isValid: false
+  isValid: false,
 }
 
-const initialState: { items: Question[] } = {
+const initialState: { items: Question[], currentFormId: string | null } = {
 	items: [],
+  currentFormId: null,
 };
 
 const formSlice = createSlice({
@@ -165,6 +166,10 @@ const formSlice = createSlice({
       // Reset the form state to its initial state
       state.items = initialState.items;
     },
+
+    currentForm: (state, action) => {
+      state.currentFormId = action.payload.itemId;
+    },
 	},
 });
 
@@ -181,6 +186,7 @@ export const {
   copyForm,
   deleteForm,
   requiredForm,
-  resetForm
+  resetForm,
+  currentForm
 } = formSlice.actions
 export default formSlice.reducer;
