@@ -1,18 +1,18 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { updateOptions, addOption, removeOption, updateOptionName, updateOptionOrder, Option, Question } from '../../slices/form.ts';
+import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { v4 as uuidv4 } from "uuid";
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
 import Button from '@mui/material/Button';
-
-import { v4 as uuidv4 } from "uuid";
-import { useLocation } from "react-router-dom";
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import {useState} from "react";
 
 type Props = {
 	item: Question
@@ -24,9 +24,9 @@ const OptionalQuestion = ({ item }: Props) => {
   const { pathname } = location;
   const isPreview = pathname === '/preview';
 	const { options, formType } = item;
+  const [hoveredOption, setHoveredOption] = useState<number | null>(null);
 
-
-	const handleOptionChange = (name: string) => {
+  const handleOptionChange = (name: string) => {
 		dispatch(updateOptions({
       id: item.id,
       checkedOption: name
@@ -64,7 +64,7 @@ const OptionalQuestion = ({ item }: Props) => {
     }));
   };
 
-  const handleSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
     dispatch(updateOptions({
       id: item.id,
       checkedOption: event.target.value as string,
@@ -84,7 +84,7 @@ const OptionalQuestion = ({ item }: Props) => {
   };
 
 	const showOptionalQuestion = (option: Option, index: number) => {
-		switch (formType) {
+      switch (formType) {
 			case '객관식 질문':
 				return (
           <Radio
@@ -107,7 +107,7 @@ const OptionalQuestion = ({ item }: Props) => {
 			case '드롭다운':
         return (
           isPreview || (
-            <div style={{ padding: '12px' }}>{index + 1}</div>
+            <div style={{ padding: '12px'}}>{index + 1}</div>
           )
         );
 			default:
@@ -124,7 +124,7 @@ const OptionalQuestion = ({ item }: Props) => {
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {options.map((option, index) => (
                   <Draggable key={option.id} draggableId={option.id} index={index}  >
-                    {(provided) => (
+                    {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
@@ -134,7 +134,19 @@ const OptionalQuestion = ({ item }: Props) => {
                           alignItems: 'center',
                           ...provided.draggableProps.style,
                         }}
+                        onMouseEnter={() => setHoveredOption(index)}
+                        onMouseLeave={() => setHoveredOption(null)}
                       >
+                        {(hoveredOption === index || snapshot.isDragging) && (
+                          <DragIndicatorIcon
+                            style={{
+                              position: 'absolute',
+                              left: '-10px',
+                              color: 'rgba(0, 0, 0, 0.2)',
+                              fontSize: 'medium',
+                            }}
+                          />
+                        )}
                         {showOptionalQuestion(option, index)}
                         {
                           isPreview && formType === '드롭다운' || (
