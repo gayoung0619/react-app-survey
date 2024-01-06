@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { updateOptions, addOption, removeOption, updateOptionName, Option, Question } from '../../slices/form.ts';
+import { updateOptions, addOption, removeOption, updateOptionName, updateOptionOrder, Option, Question } from '../../slices/form.ts';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
@@ -70,6 +71,18 @@ const OptionalQuestion = ({ item }: Props) => {
     }));
   };
 
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const updatedOptions = Array.from(item.options);
+    const [movedItem] = updatedOptions.splice(result.source.index, 1);
+    updatedOptions.splice(result.destination.index, 0, movedItem);
+
+    dispatch(updateOptionOrder({ questionId: item.id, newOptions: updatedOptions }));
+  };
+
 	const showOptionalQuestion = (option: Option, index: number) => {
 		switch (formType) {
 			case '객관식 질문':
@@ -105,41 +118,66 @@ const OptionalQuestion = ({ item }: Props) => {
 	return (
     <>
       <FormControl sx={{ width: '100%' }}>
-        {options.map((option, index) => (
-          <div key={option.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-            {showOptionalQuestion(option, index)}
-            <TextField
-              value={option.name || ''}
-              fullWidth
-              variant="standard"
-              disabled={isPreview? !option.textDisabled : option.textDisabled}
-              onChange={(e) => handleOptionNameChange(option.id, e.target.value)}
-              InputProps={{
-                disableUnderline: true,
-                endAdornment:
-                  !isPreview && (<ClearIcon
-                    sx={{
-                      color: 'rgb(95,99,104)',
-                      padding: '5px',
-                      '&:hover': {
-                        backgroundColor: 'rgb(248, 249, 250)',
-                        borderRadius: '50%',
-                        cursor: 'pointer'
-                      },
-                    }}
-                    onClick={() => handleRemoveOption(option.id)}
-                  />),
-                sx: {
-                  fontSize: '11pt',
-                  '&:hover': {
-                    borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
-                  },
-                },
-              }}
-            />
-          </div>
-          ))
-        }
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="droppable">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {options.map((option, index) => (
+                  <Draggable key={option.id} draggableId={option.id} index={index}  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          ...provided.draggableProps.style,
+                        }}
+                      >
+                        {showOptionalQuestion(option, index)}
+                        {
+                          isPreview && formType === '드롭다운' || (
+                            <TextField
+                              value={option.name || ''}
+                              fullWidth
+                              variant="standard"
+                              disabled={isPreview? !option.textDisabled : option.textDisabled}
+                              onChange={(e) => handleOptionNameChange(option.id, e.target.value)}
+                              InputProps={{
+                                disableUnderline: true,
+                                endAdornment:
+                                  !isPreview && (<ClearIcon
+                                    sx={{
+                                      color: 'rgb(95,99,104)',
+                                      padding: '5px',
+                                      '&:hover': {
+                                        backgroundColor: 'rgb(248, 249, 250)',
+                                        borderRadius: '50%',
+                                        cursor: 'pointer'
+                                      },
+                                    }}
+                                    onClick={() => handleRemoveOption(option.id)}
+                                  />),
+                                sx: {
+                                  fontSize: '11pt',
+                                  '&:hover': {
+                                    borderBottom: '1px solid rgba(0, 0, 0, 0.42)',
+                                  },
+                                },
+                              }}
+                            />
+                          )
+                        }
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
 
         {isPreview && formType === '드롭다운' &&  (
           <Select value={item.checkedOption} onChange={handleSelectChange}>

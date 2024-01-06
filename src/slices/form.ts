@@ -99,6 +99,15 @@ const formSlice = createSlice({
       item.checkedOption = action.payload.checkedOption
 		},
 
+    updateOptionOrder: (state, action) => {
+      const { questionId, newOptions } = action.payload;
+      const question = state.items.find((item) => item.id === questionId);
+
+      if (!question) return state;
+
+      question.options = newOptions;
+    },
+
 		addOption: (state, action) => {
 			const item = state.items.find((item) => {
 				return item.id === action.payload.id 
@@ -179,6 +188,7 @@ export const {
   updateFormType,
   updateQuestion,
   updateOptions,
+  updateOptionOrder,
   updateTextValue,
   addOption,
   removeOption,
