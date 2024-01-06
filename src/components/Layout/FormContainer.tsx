@@ -52,7 +52,7 @@ const FormContainer = ({ item }: Props) => {
       }
       {
         isPreview ||
-        <>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
 					<TextField
 						id="standard-basic"
 						variant="standard"
@@ -73,7 +73,7 @@ const FormContainer = ({ item }: Props) => {
 							value={item.formType}
 							inputProps={{ 'aria-label': '질문 유형' }}
 							style={{
-                minWidth: '120px'
+                minWidth: '120px',
               }}
 						>
 							<MenuItem value="단답형">단답형</MenuItem>
@@ -83,7 +83,7 @@ const FormContainer = ({ item }: Props) => {
 							<MenuItem value="드롭다운">드롭다운</MenuItem>
 						</Select>
 					</FormControl>
-        </>
+        </div>
       }
       {renderForm()}
       {isPreview || <ControlButton item={item} />}

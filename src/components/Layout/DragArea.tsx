@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { updateFormOrder, resetForm, currentForm } from '../../slices/form.ts'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { RootState } from "../../store";
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import Button from "@mui/material/Button";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import Wrapper from "./Wrapper.jsx";
@@ -89,10 +90,10 @@ const DragArea = () => {
                         ...provided.draggableProps.style,
 											}}
 										>
+                      {isPreview || <DragIndicatorIcon className={classes.dragIndicator} />}
 											<Card>
-												{/* 다른 드래그 가능한 내용 */}
 												<FormContainer item={item} />
-                        {isSubmitClicked &&isPreview && item.isRequired && item.inputValue.trim() === '' && item.checkedOption === '' && (
+                        {isSubmitClicked && isPreview && item.isRequired && item.inputValue.trim() === '' && item.checkedOption === '' && (
                           <div key={item.id} style={{ display: 'flex', alignItems: 'center', color: 'red', marginTop: '5px', fontSize: '13px' }}>
                             <ErrorOutlineIcon style={{ marginRight: '10px' }} />필수 질문입니다
                           </div>
