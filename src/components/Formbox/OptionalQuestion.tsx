@@ -2,6 +2,8 @@ import { useDispatch } from 'react-redux';
 import { updateOptions, addOption, removeOption, updateOptionName, Option, Question } from '../../slices/form.ts';
 import Radio from '@mui/material/Radio';
 import Checkbox from '@mui/material/Checkbox';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -31,9 +33,9 @@ const OptionalQuestion = ({ item }: Props) => {
 
 	const handleOptionNameChange = (optionId: string, newName: string) => {
 		dispatch(updateOptionName({
-			id: item.id, 
-			optionId, 
-			newName 
+			id: item.id,
+			optionId,
+			newName
 		}));
 	};
 
@@ -60,7 +62,7 @@ const OptionalQuestion = ({ item }: Props) => {
       option:  newOption
     }));
   }
-	const showOptionalQuestion = (option: Option) => {
+	const showOptionalQuestion = (option: Option, index: number) => {
 		switch (formType) {
 			case '객관식 질문':
 				return (
@@ -82,7 +84,11 @@ const OptionalQuestion = ({ item }: Props) => {
 					/>
 				);
 			case '드롭다운':
-				return <div className="dropdown-option"></div>;
+        return (
+          isPreview || (
+            <div style={{ padding: '12px' }}>{index + 1}</div>
+          )
+        );
 			default:
 				return;
 		}
@@ -90,9 +96,9 @@ const OptionalQuestion = ({ item }: Props) => {
 	return (
     <>
       <FormControl sx={{ width: '100%' }}>
-        {options.map((option) => (
+        {options.map((option, index) => (
           <div key={option.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-            {showOptionalQuestion(option)}
+            {showOptionalQuestion(option, index)}
             <TextField
               value={option.name || ''}
               fullWidth
@@ -125,16 +131,30 @@ const OptionalQuestion = ({ item }: Props) => {
           </div>
           ))
         }
+
+        {isPreview && formType === '드롭다운' &&  (
+          <Select>
+            {options.map((option) => (
+              <MenuItem key={option.id} value={option.name}>{option.name}</MenuItem>
+            ))}
+          </Select>
+        )}
         {
           !isPreview && (
             <div style={{ display: 'flex', alignItems: 'center', fontSize: '11pt' }}>
               <Button variant="text" onClick={handleAddOption} style={{ color: 'rgba(0, 0, 0, 0.42)', fontSize: 'inherit' }}>
                 옵션 추가
               </Button>
-              또는
-              <Button variant="text" onClick={handleAddTextfield} style={{ fontSize: 'inherit' }}>
-                '기타'추가
-              </Button>
+              {
+                formType === '드롭다운' || (
+                  <>
+                    또는
+                    <Button variant="text" onClick={handleAddTextfield} style={{ fontSize: 'inherit' }}>
+                      '기타'추가
+                    </Button>
+                  </>
+                )
+              }
             </div>
           )
         }
