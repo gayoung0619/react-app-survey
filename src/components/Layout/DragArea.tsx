@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { updateFormOrder } from '../../slices/form.ts'
+import { useNavigate } from "react-router-dom";
+import { resetForm, updateFormOrder} from '../../slices/form.ts'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 
 import Wrapper from "./Wrapper.jsx";
@@ -10,10 +11,16 @@ import FormContainer from "./FormContainer.tsx"
 import classes from './DragArea.module.css';
 
 import { RootState } from "../../store";
+import Button from "@mui/material/Button";
+import { useLocation } from "react-router-dom";
 
 const DragArea = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { pathname } = location;
+  const isPreview = pathname === '/preview';
 	const dispatch = useDispatch();
-	const items = useSelector((state: RootState) => state.form.items );
+	const items = useSelector((state: RootState) => state.form.items);
 
 	const handleDragEnd = (result: DropResult) => {
 		if (!result.destination) {
@@ -26,6 +33,18 @@ const DragArea = () => {
 
 		dispatch(updateFormOrder(updatedItems));
 	};
+
+  const handleSubmit = () => {
+    items.map((item)=>{
+      if (item.isRequired && item.inputValue === '' && item.checkedOption === '') {
+        console.log('폼제출 안함');
+      }else {
+        alert('폼이 제출되었습니다.');
+        navigate("/");  // 홈으로 이동
+        dispatch(resetForm())
+      }
+    })
+  }
 
 	return (
 		<Wrapper>
@@ -65,6 +84,12 @@ const DragArea = () => {
 					)}
 				</Droppable>
 			</DragDropContext>
+      {isPreview && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxWidth: '768px', margin: '0 auto' }}>
+          <Button onClick={handleSubmit} variant="contained" type="submit">제출</Button>
+          <Button variant="text">양식 지우기</Button>
+        </div>
+      )}
 		</Wrapper>
 	);
 };
