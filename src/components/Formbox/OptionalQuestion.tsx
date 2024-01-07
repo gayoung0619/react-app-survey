@@ -119,7 +119,7 @@ const OptionalQuestion = ({ item }: Props) => {
     <>
       <FormControl sx={{ width: '100%' }}>
         <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable dr기oppableId="droppable">
+          <Droppable droppableId="droppable">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {options.map((option, index) => (
