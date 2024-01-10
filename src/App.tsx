@@ -35,7 +35,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-		<BrowserRouter basename="/react-app-survey">
+		<BrowserRouter basename="/react-app-survey/">
 			<GlobalStyle />
 			<ThemeProvider theme={theme}>
 				<RouterProvider router={router} />
