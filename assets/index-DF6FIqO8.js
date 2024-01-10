@@ -231,4 +231,4 @@ Error generating stack: `+i.message+`
     margin: 0;
     padding: 0;
 	}
-`,i8=om({palette:{primary:{main:"rgb(103, 58, 183)"}}}),a8=hD([{path:"/",children:[{index:!0,element:P.jsx(r8,{})},{path:"preview",element:P.jsx(n8,{})}]}]);function l8(){return P.jsxs(RD,{basename:"/react-app-survey",children:[P.jsx(o8,{}),P.jsx(dM,{theme:i8,children:P.jsx(CD,{router:a8})})]})}op.createRoot(document.getElementById("root")).render(P.jsx(zI,{store:o2,children:P.jsx(l8,{})}));
+`,i8=om({palette:{primary:{main:"rgb(103, 58, 183)"}}}),a8=hD([{path:"/",children:[{index:!0,element:P.jsx(r8,{})},{path:"preview",element:P.jsx(n8,{})}]}]);function l8(){return P.jsxs(RD,{basename:"/react-app-survey/",children:[P.jsx(o8,{}),P.jsx(dM,{theme:i8,children:P.jsx(CD,{router:a8})})]})}op.createRoot(document.getElementById("root")).render(P.jsx(zI,{store:o2,children:P.jsx(l8,{})}));
