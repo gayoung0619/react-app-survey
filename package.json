@@ -1,5 +1,6 @@
 {
   "name": "vite-project",
+  "homepage": "https://gayoung0619.github.io/react-app-survey/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,9 @@
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint vite-project --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -18,6 +21,7 @@
     "@mui/material": "^5.15.2",
     "@reduxjs/toolkit": "^2.0.1",
     "@typescript-eslint/parser": "^6.17.0",
+    "gh-pages": "^6.1.1",
     "immer": "^10.0.3",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
