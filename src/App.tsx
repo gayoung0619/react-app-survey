@@ -27,8 +27,8 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		children: [
-			{ index: true, element: <Form /> },
-			{ path: 'preview', element: <Preview /> },
+			{ path: '/', element: <Form /> },
+			{ path: '/preview', element: <Preview /> },
 		],
 	},
 ]);
