@@ -1,4 +1,4 @@
-import {BrowserRouter, createBrowserRouter, RouterProvider} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { createGlobalStyle } from 'styled-components';
 
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		children: [
-			{ path: '/react-app-survey/', element: <Form /> },
+			{ index: true, element: <Form /> },
 			{ path: 'preview', element: <Preview /> },
 		],
 	},
@@ -38,7 +38,7 @@ function App() {
 		<>
 			<GlobalStyle />
 			<ThemeProvider theme={theme}>
-				<BrowserRouter router={router} basename={process.env.PUBLIC_URL}  />
+				<RouterProvider router={router} />
 			</ThemeProvider>
 		</>
   )

@@ -1,16 +1,16 @@
 {
   "name": "vite-project",
-  "homepage": "https://gayoung0619.github.io/react-app-survey/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://gayoung0619.github.io/react-app-survey",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint vite-project --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d build",
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
